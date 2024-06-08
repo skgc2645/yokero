@@ -10,12 +10,14 @@ public class InputHundler : SingletonMonoBehaviour<InputHundler>
     [SerializeField] KeyCode _rightBtn;
     [SerializeField] KeyCode _upBtn;
     [SerializeField] KeyCode _downBtn;
+    [SerializeField] KeyCode _EmoteBtn;
 
 
     public readonly ReactiveProperty<bool> BtnLeft  = new ReactiveProperty<bool>();
     public readonly ReactiveProperty<bool> BtnRight = new ReactiveProperty<bool>();
     public readonly ReactiveProperty<bool> BtnUp    = new ReactiveProperty<bool>();
     public readonly ReactiveProperty<bool> BtnDown  = new ReactiveProperty<bool>();
+    public readonly ReactiveProperty<bool> BtnEmote  = new ReactiveProperty<bool>();
     
     
     void Start()
@@ -37,5 +39,6 @@ public class InputHundler : SingletonMonoBehaviour<InputHundler>
         BtnRight.Value = Input.GetKeyDown(_rightBtn);
         BtnUp.Value    = Input.GetKeyDown(_upBtn);
         BtnDown.Value  = Input.GetKeyDown(_downBtn);
+        BtnEmote.Value  = Input.GetKeyDown(_EmoteBtn);
     }
 }
