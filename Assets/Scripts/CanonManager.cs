@@ -28,13 +28,30 @@ public enum HoriCanonPos
 }
 public class CanonManager : MonoBehaviour
 {
+    //startDebug
+    float time = 0f;
+    float defaultSpeed = 5f;
+    //endDebug
     [SerializeField] CanonBall _canonBallPrefab;
+    [SerializeField] Transform _canonBallParentsTf;
+
+    public float CanonSpeed { get { return _canonSpeed; } }
+
+    int _canonBallCount = 0;
+    float _canonSpeed;
 
     CancellationToken _ct;
 
     int CANONSIDE_LENGTH    = Enum.GetValues(typeof(CanonSide)).Length;
     int VERCANONPOS_LENGTH  = Enum.GetValues(typeof(VerCanonPos)).Length;
     int HORICANONPOS_LENGTH = Enum.GetValues(typeof(HoriCanonPos)).Length;
+    
+    
+    float MAX_SPEED = 20f;
+    float REST_TIME_MIN = 0.5f;
+    float REST_TIME_MAX = 1.0f;
+    int MAX_CANONBALL_NUM = 5;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -47,22 +64,30 @@ public class CanonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        time += Time.deltaTime;
     }
 
 
     async void LaunchCanon(CancellationToken ct)
     {
         CanonBall canonBall = Instantiate(_canonBallPrefab);
+        _canonBallCount++;
+        canonBall.SetParent(_canonBallParentsTf);
         int canonside = UnityEngine.Random.Range(0, CANONSIDE_LENGTH);
         int canonidx  = UnityEngine.Random.Range(0, VERCANONPOS_LENGTH);
         canonBall.SetInitialPos((CanonSide)canonside, canonidx);
-        while(true)
+        if(defaultSpeed + time < MAX_SPEED)
+            canonBall.Speed = defaultSpeed + time;
+        else 
+            canonBall.Speed = MAX_SPEED;
+        
+        while (true)
         {
-            canonBall?.Move((CanonSide)canonside,20f,Time.deltaTime);
+            canonBall?.Move((CanonSide)canonside,Time.deltaTime);
             if (!canonBall.IsVisible)
             {
                 Destroy(canonBall.gameObject);
+                _canonBallCount--;
                 break;
             }
             await UniTask.Yield(PlayerLoopTiming.Update);
@@ -73,8 +98,10 @@ public class CanonManager : MonoBehaviour
     {
         while (true) 
         {
+            if(_canonBallCount <= MAX_CANONBALL_NUM )
             LaunchCanon(_ct);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.5));
+            float rest = UnityEngine.Random.Range(REST_TIME_MIN, REST_TIME_MAX);
+            await UniTask.Delay(TimeSpan.FromSeconds(rest));
         }
     }
 

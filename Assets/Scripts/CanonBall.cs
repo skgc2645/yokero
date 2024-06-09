@@ -8,7 +8,10 @@ public class CanonBall : MonoBehaviour
 {
     
     public bool IsVisible  { get{ return _isVisible; } }
+    public float Speed { get{ return _speed; } set { _speed = value; } }
+    
     bool _isVisible = false;
+    float _speed;
 
     Vector3[] RIGHTCANON_INITPOSES   = { new Vector3(10.5f, 3.65f, -0.2f),  new Vector3(10.5f, 0.65f, -0.2f),  new Vector3(10.5f, -2.35f, -0.2f) };
     Vector3[] LEFTCANON_INITPOSES    = { new Vector3(-9.5f, 3.65f, -0.2f),  new Vector3(-9.5f, 0.65f, -0.2f),  new Vector3(-9.5f, -2.35f, -0.2f) };
@@ -47,48 +50,48 @@ public class CanonBall : MonoBehaviour
     }
 
 
-    public void Move(CanonSide side, float speed, float time)
+    public void Move(CanonSide side, float time)
     {
         switch(side) 
         {
             case CanonSide.Left:
-                MoveRight(speed, time);
+                MoveRight(time);
                 return;
             case CanonSide.Right:
-                MoveLeft(speed, time);
+                MoveLeft(time);
                 return;
             case CanonSide.Top:
-                MoveDown(speed, time); 
+                MoveDown(time); 
                 return;
             case CanonSide.Bottom:
-                MoveUp(speed, time);
+                MoveUp(time);
                 return;
         }
     }
-    public void MoveRight(float speed, float time)
+    public void MoveRight(float time)
     {
-        transform.position = new Vector3(transform.position.x + time * speed, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x + time * _speed, transform.position.y, transform.position.z);
         CheckIsVisible();
     }
 
 
-    public void MoveLeft(float speed, float time)
+    public void MoveLeft(float time)
     {
-        transform.position = new Vector3(transform.position.x - time * speed, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x - time * _speed, transform.position.y, transform.position.z);
         CheckIsVisible();
     }
 
 
-    public void MoveUp(float speed, float time)
+    public void MoveUp(float time)
     {
-        transform.position = new Vector3(transform.position.x , transform.position.y + time * speed, transform.position.z);
+        transform.position = new Vector3(transform.position.x , transform.position.y + time * _speed, transform.position.z);
         CheckIsVisible();
     }
 
 
-    public void MoveDown(float speed, float time)
+    public void MoveDown(float time)
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - time * speed, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - time * _speed, transform.position.z);
         CheckIsVisible();
     }
 
@@ -102,5 +105,10 @@ public class CanonBall : MonoBehaviour
             _isVisible = false;
         else
             _isVisible = true;
+    }
+
+    public void SetParent(Transform tf)
+    {
+        transform.SetParent(tf);
     }
 }
