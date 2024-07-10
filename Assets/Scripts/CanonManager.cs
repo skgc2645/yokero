@@ -26,7 +26,7 @@ public enum HoriCanonPos
     Center,
     Right
 }
-public class CanonManager : MonoBehaviour
+public class CanonManager : SingletonMonoBehaviour<CanonManager>
 {
     //startDebug
     float time = 0f;
@@ -47,24 +47,24 @@ public class CanonManager : MonoBehaviour
     int HORICANONPOS_LENGTH = Enum.GetValues(typeof(HoriCanonPos)).Length;
     
     
-    float MAX_SPEED = 20f;
+    float MAX_SPEED = 22f;
     float REST_TIME_MIN = 0.5f;
-    float REST_TIME_MAX = 1.0f;
-    int MAX_CANONBALL_NUM = 5;
+    float REST_TIME_MAX = 0.6f;
+    int MAX_CANONBALL_NUM = 7;
     
 
     // Start is called before the first frame update
     void Start()
     {
          _ct= default;
-        CanonController();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
+        if(GameFlow.instance.IsGame)
+            time += Time.deltaTime;
     }
 
 
@@ -94,7 +94,7 @@ public class CanonManager : MonoBehaviour
         }
     }
 
-    async void CanonController()
+    public async void StartCanon()
     {
         while (true) 
         {
@@ -105,7 +105,10 @@ public class CanonManager : MonoBehaviour
         }
     }
 
-
+    void Reset()
+    {
+        time = 0;
+    }
 
 
 
