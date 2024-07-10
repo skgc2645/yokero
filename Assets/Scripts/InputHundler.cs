@@ -20,7 +20,7 @@ public class InputHundler : SingletonMonoBehaviour<InputHundler>
     public readonly ReactiveProperty<bool> BtnEmote  = new ReactiveProperty<bool>();
     
     
-    void Start()
+    public void Initialize()
     {
         BtnLeft.AddTo(this);
         BtnRight.AddTo(this);
