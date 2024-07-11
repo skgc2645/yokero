@@ -16,6 +16,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     [SerializeField] GameTimerView _gameTimerView;
     [SerializeField] ClearView       _clearView;
     [SerializeField] InitialTextView _InitialTextView;
+    //[SerializeField] QuitGame _quitGame;
 
      
     //property
@@ -40,6 +41,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     void Start()
     {
         Initialize();
+        Debug.Log("initial");
     }
 
     void Update()
@@ -79,6 +81,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
         _gameTimerView.Initialize((int)GAME_TIME);
         _clearView.Initialize();
         _InitialTextView.Initialize();
+        //_quitGame.Initialize();
     }
 
 
