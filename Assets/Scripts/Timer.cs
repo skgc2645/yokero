@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ public class Timer
     }
 
 
-    public async UniTask StartAsyncCountDown()
+    public async UniTask StartAsyncCountDown(CancellationToken ct)
     {
         CountDownTimerReset();
         while (_curCountDownTime >= -1)
@@ -45,7 +46,7 @@ public class Timer
             }
             _curCountDownTime -= Time.deltaTime;
 
-            await UniTask.Yield(PlayerLoopTiming.Update);
+            await UniTask.Yield(PlayerLoopTiming.Update, ct);
         }
 
         _awaitCountDown.TrySetResult();
@@ -53,10 +54,10 @@ public class Timer
     }
 
 
-    public async void StartCountDown()
+    public async void StartCountDown(CancellationToken ct)
     {
         CountDownTimerReset();
-        while (_curCountDownTime >= -1 && GameFlow.instance.IsGame)
+        while (!ct.IsCancellationRequested && _curCountDownTime >= -1 && GameFlow.instance && GameFlow.instance.IsGame)
         {
             if (_intCountDownTime.Value != (int)Mathf.Ceil(_curCountDownTime))
             {

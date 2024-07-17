@@ -2,8 +2,11 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameFlow : SingletonMonoBehaviour<GameFlow>
 {
@@ -28,8 +31,10 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     //member
     bool _isgame = false;
     ReactiveProperty<bool> _isClear ;
-    Timer _initCountDownTimer = new Timer(COUNT_TIME);
-    Timer _gameTimer = new Timer(GAME_TIME);
+    Timer _initCountDownTimer;
+    Timer _gameTimer;
+    CancellationTokenSource _ct;
+
 
     //定数
     static float COUNT_TIME = 3f;         //カウントダウンする秒数
@@ -41,6 +46,8 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     void Start()
     {
         Initialize();
+
+
         Debug.Log("initial");
     }
 
@@ -59,10 +66,10 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
 
     async void StartGame()
     {
-        await  _initCountDownTimer.StartAsyncCountDown();
+        await  _initCountDownTimer.StartAsyncCountDown(_ct.Token);
         _isgame = true;
-        CanonManager.instance.StartCanon();
-        _gameTimer.StartCountDown();
+        CanonManager.instance.StartCanon(_ct.Token);
+        _gameTimer.StartCountDown(_ct.Token);
         
     }
 
@@ -71,7 +78,10 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     void Initialize()
     {
         _isgame = false;
+        _ct = new CancellationTokenSource();
         _isClear = new ReactiveProperty<bool> (false);
+        _initCountDownTimer = new Timer(COUNT_TIME);
+        _gameTimer = new Timer(GAME_TIME);
         _inputHundler.Initialize();
         _player.Initialize();
         _lifeUIView.Initialize();
@@ -87,6 +97,13 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
 
     void Reset()
     {
+    }
+
+    public void Quit()
+    {
+        _ct.Cancel();
+        Reset();
+        SceneManager.LoadScene("Title");
 
     }
 

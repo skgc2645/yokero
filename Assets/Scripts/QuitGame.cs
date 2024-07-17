@@ -10,15 +10,15 @@ public class QuitGame : MonoBehaviour
     [SerializeField] Button _clearBtn;
 
 
-    void Onclick()
+    public void Onclick()
     {
         Debug.Log("hogehoge");
         SceneManager.LoadScene("Title");
     }
 
-    public void Initialize()
-    {
-        _gameOverBtn.onClick.AddListener(() => Onclick());
-        _clearBtn.onClick.AddListener(() => Onclick());
-    }
+    //public void Initialize()
+   // {
+     //   _gameOverBtn.onClick.AddListener(() => Onclick());
+    //    _clearBtn.onClick.AddListener(() => Onclick());
+    ///}
 }

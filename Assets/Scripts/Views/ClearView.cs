@@ -11,7 +11,7 @@ public class ClearView : MonoBehaviour
     public void Initialize()
     {
         //hierarchy‚ð•Ï‚¦‚Ä‚µ‚Ü‚¤‚Æ‚¤‚Ü‚­“®‚©‚È‚¢
-        _text = transform.GetChild(4).gameObject.GetComponent<TextMeshProUGUI>();
+        _text = transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>();
         gameObject.SetActive(false);
     }
 

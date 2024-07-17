@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LifeUIView : MonoBehaviour
 {
@@ -14,9 +15,9 @@ public class LifeUIView : MonoBehaviour
 
 
     //íËêî
-    Vector3 INIT_HEART_POS = new Vector3(-3f, 0.1f, 0f);
-    float HEART_OFFSET = 1.5f;
-    Vector3 HEART_SCALE = new Vector3(0.15f, 0.105f, 0.105f);
+    Vector3 INIT_HEART_POS = new Vector3(-44f, 0.5f, 0f);
+    float HEART_OFFSET = 22f;
+    Vector3 HEART_SCALE = new Vector3(0.2f, 0.14f, 0.14f);
 
     List<GameObject> _fullSpriteObjectList    = new List<GameObject>();
     List<GameObject> _damagedSpriteObjectList = new List<GameObject>();
@@ -31,10 +32,8 @@ public class LifeUIView : MonoBehaviour
             go.transform.parent = FullHeartPanel;
             go.transform.localPosition = new Vector3(INIT_HEART_POS.x + HEART_OFFSET * i, INIT_HEART_POS.y, INIT_HEART_POS.z);
             go.transform.localScale = HEART_SCALE;
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = FullHeartSprite;
-            sr.sortingOrder = 3;
-            sr.sortingLayerName = "UI";
+            Image img = go.AddComponent<Image>();
+            img.sprite = FullHeartSprite;
             _fullSpriteObjectList.Add(go);
         }
         //DamagedHeart sprite generate
@@ -44,10 +43,8 @@ public class LifeUIView : MonoBehaviour
             go.transform.parent = DamagedHeartPanel;
             go.transform.localPosition = new Vector3(INIT_HEART_POS.x + HEART_OFFSET * i, INIT_HEART_POS.y, INIT_HEART_POS.z);
             go.transform.localScale = HEART_SCALE;
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = DamagedHeartSprite;
-            sr.sortingOrder = 2;
-            sr.sortingLayerName = "UI";
+            Image img = go.AddComponent<Image>();
+            img.sprite = DamagedHeartSprite;
             go.SetActive(false);
             _damagedSpriteObjectList.Add(go);
         }

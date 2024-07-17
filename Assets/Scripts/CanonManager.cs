@@ -40,7 +40,6 @@ public class CanonManager : SingletonMonoBehaviour<CanonManager>
     int _canonBallCount = 0;
     float _canonSpeed;
 
-    CancellationToken _ct;
 
     int CANONSIDE_LENGTH    = Enum.GetValues(typeof(CanonSide)).Length;
     int VERCANONPOS_LENGTH  = Enum.GetValues(typeof(VerCanonPos)).Length;
@@ -56,7 +55,6 @@ public class CanonManager : SingletonMonoBehaviour<CanonManager>
     // Start is called before the first frame update
     void Start()
     {
-         _ct= default;
     }
 
 
@@ -83,6 +81,7 @@ public class CanonManager : SingletonMonoBehaviour<CanonManager>
         
         while (true)
         {
+            if (canonBall == null) break; 
             canonBall?.Move((CanonSide)canonside,Time.deltaTime);
             if (!canonBall.IsVisible)
             {
@@ -90,16 +89,17 @@ public class CanonManager : SingletonMonoBehaviour<CanonManager>
                 _canonBallCount--;
                 break;
             }
+            if (ct.IsCancellationRequested) return;
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
     }
 
-    public async void StartCanon()
+    public async void StartCanon(CancellationToken ct)
     {
-        while (true) 
+        while (!ct.IsCancellationRequested && GameFlow.instance) 
         {
             if(_canonBallCount <= MAX_CANONBALL_NUM )
-            LaunchCanon(_ct);
+            LaunchCanon(ct);
             float rest = UnityEngine.Random.Range(REST_TIME_MIN, REST_TIME_MAX);
             await UniTask.Delay(TimeSpan.FromSeconds(rest));
         }
