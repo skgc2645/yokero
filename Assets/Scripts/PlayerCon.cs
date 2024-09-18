@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -26,16 +27,23 @@ public class PlayerCon : MonoBehaviour
     //property
     public IReadOnlyReactiveProperty<int> HitPoint { get { return _hitPoint; } }
     public int EmoteCount {get{return _emoteCount; }}
+
     //member
-    Animator _animator;
-    int _curEmoteIdx;
-    bool _isMoving = false;
-    int _emoteCount = 0;
+    Animator _animator;                         //アニメーション
+    Renderer _renderer;                         //ダメージエフェクト用
+    CapsuleCollider2D _colider;                        
+    int _curEmoteIdx;                           //エモート制御用ID
+    bool _isMoving = false;                     //動作中判定フラグ
+    int _emoteCount = 0;                        //エモート数
     readonly ReactiveProperty<int> _hitPoint = new ReactiveProperty<int>(PLAYER_LIFE_MAX);
+
     //定数
-    const float   OFFSET      = 3f;
+    const float OFFSET      = 3f;
     const float LIMIT_WIDTH  = 4f;
-    const float   LIMIT_HIGHT = 4f;
+    const float LIMIT_HIGHT = 4f;
+    const float DAMAGE_EFFECT_TIME = 0.1f;
+    const int   DAMAGE_EFFECT_LOOP_NUM = 10;
+    const float DAMAGE_INTERVAL = DAMAGE_EFFECT_TIME * DAMAGE_EFFECT_LOOP_NUM;
     int PLAYER_EMOTE_NUM = Enum.GetValues(typeof(PlayerEmote)).Length;
     static int PLAYER_LIFE_MAX = 5;
     Vector3 INITIAL_POS = new Vector3(0.5f, 0.65f, -0.2f);
@@ -60,6 +68,8 @@ public class PlayerCon : MonoBehaviour
     public void Initialize()
     {
         _animator = GetComponent<Animator>();
+        _renderer = GetComponent<SpriteRenderer>();
+        _colider  = GetComponent<CapsuleCollider2D>();
         MoveBtnSettings();
         transform.position = INITIAL_POS;
         _emoteCount = 0;
@@ -221,12 +231,36 @@ public class PlayerCon : MonoBehaviour
         }
     }
 
+    async void Damaged()
+    {
+        _colider.enabled = false;
+        if(_renderer != null)   DamagedAnimation();
+        await UniTask.Delay(TimeSpan.FromSeconds(DAMAGE_INTERVAL));
+        _colider.enabled = true;
+    }
+
+    void DamagedAnimation()
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() => _renderer.enabled = false);
+        seq.AppendInterval(DAMAGE_EFFECT_TIME);
+        seq.AppendCallback(() => _renderer.enabled = true);
+        seq.AppendInterval(DAMAGE_EFFECT_TIME);
+        seq.SetLoops(10);
+        seq.Play();
+    }
+
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Canon" && GameFlow.instance.IsGame)
+        if (GameFlow.instance.IsGame)
         {
-            _hitPoint.Value--;
-            if(_hitPoint.Value == 0) GameFlow.instance.IsGame = false;
+            Damaged();
+            if (collision.gameObject.tag == "Canon")
+            {
+                _hitPoint.Value--;
+                if (_hitPoint.Value == 0) GameFlow.instance.IsGame = false;
+            }
         }
     }
 }
