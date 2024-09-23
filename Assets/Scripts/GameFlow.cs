@@ -21,7 +21,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     [SerializeField] InitialTextView _InitialTextView;
     //[SerializeField] QuitGame _quitGame;
 
-     
+
     //property
     public Timer InitialCountDownTimer { get { return _initCountDownTimer; } }
     public Timer GameTimer { get { return _gameTimer; } }

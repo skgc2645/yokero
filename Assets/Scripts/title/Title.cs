@@ -11,12 +11,14 @@ public class Title : MonoBehaviour
 
     void Onclick()
     {
-        Debug.Log("hogehoge");
+        SoundManager.instance.SoundPlay(Sound.click);
+        Debug.Log("hoge");
         SceneManager.LoadScene("game");
     }
 
     private void Start()
     {
+        SoundManager.instance.Initialize();
         _btn.onClick.AddListener(() => Onclick());
     }
 }

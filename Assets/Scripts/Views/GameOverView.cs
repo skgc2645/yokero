@@ -21,7 +21,7 @@ public class GameOverView : MonoBehaviour
     {
         img = GetComponent<Image>();
         Hide();
-        //_quitBtn.onClick.AddListener(/*titleëJà⁄ÉÅÉ\ÉbÉhMVPÇ»ÇÁPÇ…Ç©Ç≠*/)
+        _quitBtn.onClick.AddListener(Quit);
     }
 
 
@@ -41,6 +41,13 @@ public class GameOverView : MonoBehaviour
         gameObject.SetActive(false);
         _quitBtn.gameObject.SetActive(false);
         img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
+    }
+
+
+    void Quit()
+    {
+        SoundManager.instance.SoundPlay(Sound.click);
+        GameFlow.instance.Quit();
     }
 
 }

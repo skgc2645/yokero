@@ -82,7 +82,7 @@ public class PlayerCon : MonoBehaviour
         InputHundler.instance.BtnRight .Where(x => x).Subscribe(x => { Move(MoveDirection.Right); }).AddTo(this);
         InputHundler.instance.BtnUp    .Where(x => x).Subscribe(x => { Move(MoveDirection.Up); }).AddTo(this);
         InputHundler.instance.BtnDown  .Where(x => x).Subscribe(x => { Move(MoveDirection.Down); }).AddTo(this);
-        InputHundler.instance.BtnEmote .Where(x => x).Subscribe(x => { EmoteAnimation(); _emoteCount++; }).AddTo(this);
+        InputHundler.instance.BtnEmote .Where(x => x).Subscribe(x => { EmoteAnimation(); SoundManager.instance.SoundPlay(Sound.emote); _emoteCount++; }).AddTo(this);
     }
 
     void Move(MoveDirection dir)
@@ -110,6 +110,8 @@ public class PlayerCon : MonoBehaviour
         Vector3 nextPos = new Vector3(transform.position.x + OFFSET, transform.position.y, transform.position.z);
         if(Mathf.Abs(nextPos.x) < LIMIT_WIDTH && !_isMoving)
         {
+            SoundManager.instance.SoundPlay(Sound.move);
+
             transform.DOMove(nextPos, 0.1f).SetEase(Ease.OutQuad).OnStart(() =>
             {
                 _isMoving = true;
@@ -128,6 +130,7 @@ public class PlayerCon : MonoBehaviour
         Vector3 nextPos = new Vector3(transform.position.x - OFFSET, transform.position.y, transform.position.z);
         if (Mathf.Abs(nextPos.x) < LIMIT_WIDTH && !_isMoving)
         {
+            SoundManager.instance.SoundPlay(Sound.move);
             transform.DOMove(nextPos, 0.1f).SetEase(Ease.OutQuad).OnStart(() =>
             {
                 _isMoving = true;
@@ -147,6 +150,7 @@ public class PlayerCon : MonoBehaviour
         Vector3 nextPos = new Vector3(transform.position.x, transform.position.y + OFFSET, transform.position.z);
         if (Mathf.Abs(nextPos.y) < LIMIT_HIGHT && !_isMoving)
         {
+            SoundManager.instance.SoundPlay(Sound.move);
             transform.DOMove(nextPos, 0.1f).SetEase(Ease.OutQuad).OnStart(() =>
             {
                 _isMoving = true;
@@ -166,6 +170,7 @@ public class PlayerCon : MonoBehaviour
         Vector3 nextPos = new Vector3(transform.position.x, transform.position.y - OFFSET, transform.position.z);
         if (Mathf.Abs(nextPos.y) < LIMIT_HIGHT && !_isMoving)
         {
+            SoundManager.instance.SoundPlay(Sound.move);
             transform.DOMove(nextPos, 0.1f).SetEase(Ease.OutQuad).OnStart(() =>
             {
                 _isMoving = true;
@@ -256,6 +261,7 @@ public class PlayerCon : MonoBehaviour
         if (GameFlow.instance.IsGame)
         {
             Damaged();
+            SoundManager.instance.SoundPlay(Sound.damaged);
             if (collision.gameObject.tag == "Canon")
             {
                 _hitPoint.Value--;

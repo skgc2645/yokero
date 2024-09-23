@@ -46,10 +46,10 @@ public class CanonManager : SingletonMonoBehaviour<CanonManager>
     int HORICANONPOS_LENGTH = Enum.GetValues(typeof(HoriCanonPos)).Length;
     
     
-    float MAX_SPEED = 20f;
+    float MAX_SPEED = 22f;
     float REST_TIME_MIN = 0.5f;
     float REST_TIME_MAX = 0.6f;
-    int MAX_CANONBALL_NUM = 7;
+    int MAX_CANONBALL_NUM = 8;
     
 
     // Start is called before the first frame update

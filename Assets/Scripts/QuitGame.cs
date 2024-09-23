@@ -12,7 +12,7 @@ public class QuitGame : MonoBehaviour
 
     public void Onclick()
     {
-        Debug.Log("hogehoge");
+        SoundManager.instance.SoundPlay(Sound.click);
         SceneManager.LoadScene("Title");
     }
 
