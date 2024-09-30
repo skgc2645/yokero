@@ -15,9 +15,9 @@ public class LifeUIView : MonoBehaviour
 
 
     //íËêî
-    Vector3 INIT_HEART_POS = new Vector3(-44f, 0.5f, 0f);
-    float HEART_OFFSET = 22f;
-    Vector3 HEART_SCALE = new Vector3(0.2f, 0.14f, 0.14f);
+    Vector3 INIT_HEART_POS = new Vector3(-34f, 0.5f, 0f);
+    float HEART_OFFSET = 17f;
+    Vector3 HEART_SCALE = new Vector3(0.16f, 0.12f, 0.12f);
 
     List<GameObject> _fullSpriteObjectList    = new List<GameObject>();
     List<GameObject> _damagedSpriteObjectList = new List<GameObject>();
