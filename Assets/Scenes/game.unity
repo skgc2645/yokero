@@ -4054,8 +4054,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4140,8 +4140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 588.4, y: 312.3}
-  m_SizeDelta: {x: 121, y: 42}
+  m_AnchoredPosition: {x: 553.2, y: 312.3}
+  m_SizeDelta: {x: 96, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &928619480
 MonoBehaviour:
@@ -4560,7 +4560,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1292659318}
   m_Father: {fileID: 280222599}
@@ -8955,8 +8955,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -596.14, y: 310.5}
-  m_SizeDelta: {x: 121, y: 42}
+  m_AnchoredPosition: {x: -556.7, y: 310.5}
+  m_SizeDelta: {x: 96, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1695175201
 MonoBehaviour:
@@ -9271,7 +9271,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'PUsh space to start '
+  m_text: "rules\n1:move 'WASD'\n2:avoid cannon in 30s\n3:you have 5 lifes\n4:you
+    can emote 'E'\n5:Push space to start \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7eeb1a56d8197524e903ff517d586966, type: 2}
   m_sharedMaterial: {fileID: 9049571084494485139, guid: 7eeb1a56d8197524e903ff517d586966, type: 2}
@@ -9298,14 +9299,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
