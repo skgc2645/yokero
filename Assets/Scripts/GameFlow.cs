@@ -30,6 +30,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
 
     //member
     bool _isgame = false;
+    bool _pushSpace = false;
     ReactiveProperty<bool> _isClear ;
     Timer _initCountDownTimer;
     Timer _gameTimer;
@@ -53,9 +54,9 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isgame)
+        if (Input.GetKeyDown(KeyCode.Space) && !_pushSpace)
         {
-            _isgame = true;
+            _pushSpace = true;
             _isClear.Value = false;
             _InitialTextView.Hide();
             StartGame();
@@ -78,6 +79,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
     void Initialize()
     {
         _isgame = false;
+        _pushSpace = false;
         _ct = new CancellationTokenSource();
         _isClear = new ReactiveProperty<bool> (false);
         _initCountDownTimer = new Timer(COUNT_TIME);
@@ -101,6 +103,7 @@ public class GameFlow : SingletonMonoBehaviour<GameFlow>
 
     public void Quit()
     {
+        _pushSpace = false;
         _ct.Cancel();
         Reset();
         SceneManager.LoadScene("Title");
